@@ -3,22 +3,32 @@
   "version": "1.0.0",
   "description": "Small project for quickly testing Cypress.io test runner",
   "scripts": {
+    "serve-and-test": "start-server-and-test start-ci-server http://localhost:3000 cypress:run",
+    "serve-and-test:ci": "start-server-and-test start-ci-server http://localhost:3000 cypress:ci",
     "cypress:run": "cypress run",
+    "cypress:ci": "cypress run --record --key 81cc0d54-8a8d-47c0-8a84-f2f3fd2a3696 --parallel --group core",
     "cypress:open": "cypress open",
-    "cypress:verify": "cypress verify",
-    "cypress:version": "cypress version",
-    "list-videos": "ls -l cypress/videos",
-    "check-videos": "ok-file 'cypress/videos/*.mp4'",
-    "set-status": "set-status"
+    "start-ci-server": "yarn tsc --build ./tsconfig.json && serve ./build --single --listen 3000"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb@cypress.io>",
   "license": "ISC",
   "devDependencies": {
-    "ok-file": "1.4.0"
+    "ok-file": "1.4.0",
+    "serve": "^11.0.0",
+    "start-server-and-test": "^1.7.11"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/cypress-io/cypress-test-tiny.git"
+  },
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.0",
+    "cypress": "^3.4.1",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^6.0.1",
+    "typescript": "^3.6.3",
+    "webpack": "^4.41.0"
   }
 }

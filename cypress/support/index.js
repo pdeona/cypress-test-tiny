@@ -13,11 +13,22 @@
 // https://on.cypress.io/guides/configuration#section-global
 // ***********************************************************
 
-// Import commands.js and defaults.js
-// using ES2015 syntax:
 import "./commands"
 import "./defaults"
 
-// Alternatively you can use CommonJS syntax:
-// require("./commands")
-// require("./defaults")
+let polyfill;
+
+before(() => {
+  if (!polyfill) {
+    const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
+    cy.request(polyfillUrl).then(response => {
+      polyfill = response.body;
+    });
+  }
+});
+
+Cypress.on('window:before:load', win => {
+  delete win.fetch;
+  win.eval(polyfill);
+  win.fetch = win.unfetch
+});
